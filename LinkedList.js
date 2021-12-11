@@ -41,11 +41,9 @@ class LinkedList{
             if (curr.value === value){
                 return true;
             }
-            else{
-                return false
-            }
             curr = curr.next;
         }
+        return false;
     }
 
 
@@ -220,6 +218,11 @@ class LinkedList{
         }
         let prev = null;
         let curr = this.head;
+        while(curr !== null){
+            if (curr.value ){
+                return;
+            }
+        }
     }
 
 
@@ -250,7 +253,7 @@ list.insertLast(30);
 list.insertLast(40);
 list.insertLast(50);
 list.reverse();
-console.log(list.contains(0));
+console.log(list.contains(60));
 
 list.printList();
 console.log(list);
