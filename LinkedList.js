@@ -156,7 +156,7 @@ class LinkedList{
             curr = curr.next;
             count++;
         }
-        console.log(curr);
+        // console.log(curr);
         prev.next = curr.next;
         this.size--;
     }
@@ -188,43 +188,78 @@ class LinkedList{
     }
 
     reverse(){
-        if (this._isEmpty()){
-            throw "Empty"
+        if(this._isEmpty()){
+            throw "List is empty"
         }
         if(this.head === this.tail){
             return this.head;
         }
+
+        let current = this.head;
+        let first = current;
         let prev = null;
-        let curr = this.head;
-        let last = curr;
-        while(curr !== null){
-            let next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
+
+        while(current !== null){
+            let next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
         }
+
         this.head = prev;
-        this.tail = last;
-        return this;
+        this.tail = first;
 
+    
     }
 
-    sort(){
-        if(this._isEmpty()){
-            throw "Empty"
+    sort(list){
+        if(list === null || list.next === null){
+            return list;
         }
-        if(this.size === 1){
-            return this.head;
-        }
-        let prev = null;
-        let curr = this.head;
-        while(curr !== null){
-            if (curr.value ){
-                return;
+        let left = list;
+        let right = this.getMid(list);
+        let temp = right.next;
+        right.next = null;
+        right = temp;
+
+        const leftList = this.sort(left);
+        const rightList = this.sort(right);
+        return this.merge(leftList, rightList);
+    }
+
+    merge(left, right){
+        let dummy = new LinkNode();
+        let res = dummy;
+        while(left && right){
+            if (left.value < right.value){
+                dummy.next = left;
+                left = left.next;
             }
+            else{
+                dummy.next = right;
+                right = right.next;
+            }
+            dummy = dummy.next;
         }
+        if(left){
+            dummy.next = left;
+        }
+        if(right){
+            dummy.next = right;
+        }
+        return res.next;
     }
 
+    getMid(list){
+        if (list.next === null || list.next.next === null) return list;
+        let slow = list;
+        let fast = list;
+        while(fast  && fast.next){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
 
     printList(){
         let str = "";
@@ -247,13 +282,8 @@ class LinkedList{
 }
 
 const list = new LinkedList();
-list.insertLast(10);
-list.insertLast(20);
-list.insertLast(30);
-list.insertLast(40);
-list.insertLast(50);
-list.reverse();
-console.log(list.contains(60));
-
+list.insertLast(2);
+list.insertLast(1);
+list.insertLast(3);
+list.insertLast(1);
 list.printList();
-console.log(list);
