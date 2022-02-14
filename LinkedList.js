@@ -165,7 +165,7 @@ class LinkedList{
         this.head=this.tail=null;
         this.size--;
     }
-    _getPrevious(curr){
+    _getPrevious(curr){//1-2-3-null
         let prev;
         while(curr.next !== null){
             prev = curr;
@@ -261,6 +261,42 @@ class LinkedList{
         return slow;
     }
 
+    rotateLeft(llist, roatation){
+        let rotate = this.size % roatation;
+        let current = llist;
+        let count = 1;
+        while(current && rotate >= count){
+            current = current.next;
+            count++;
+        }
+        let beforeRotateelementNode = current.next;
+        let currentBeforeRoatateElementNode = beforeRotateelementNode;
+        current.next = null;
+
+        while(beforeRotateelementNode.next){
+            beforeRotateelementNode = beforeRotateelementNode.next;
+        }
+        beforeRotateelementNode.next = llist;
+        llist = beforeRotateelementNode;
+        return llist;
+
+    }
+
+    printListWIthval(head){
+        let str = "";
+        let curr = head;
+
+        if(head === null){
+            console.log("Nothing to print, List is Empty");
+        }
+
+        while(curr !== null){
+            str+= curr.value + "-->";
+            curr = curr.next;
+        }
+        console.log(str);
+    }
+
     printList(){
         let str = "";
         let curr = this.head;
@@ -287,3 +323,4 @@ list.insertLast(1);
 list.insertLast(3);
 list.insertLast(1);
 list.printList();
+list.printListWIthval(list.rotateLeft(list.head, 5))
